@@ -1,0 +1,50 @@
+
+
+### ---------------------------------------------------------
+### ANIMATION DEFINITIONS
+### ---------------------------------------------------------
+
+[Anim: walle_curious]
+### Head cocks sideways, neck extends, pupil dilates with audio chirp
+@0.0s   yaw=0   neck_base_pitch=-25   neck_top_pitch=0   head_pitch=0   left_eye=0   right_eye=0   v_eyelid=0   v_aperture=50   v_glow_color=60
+@0.4s   yaw=15,100   neck_base_pitch=-45,80   neck_top_pitch=30,80   head_pitch=25,100   left_eye=20,120   right_eye=20,120   v_aperture=85,150   v_audio_play=1,80
+@1.5s   yaw=-10,80   left_eye=-15,100   right_eye=-15,100   v_aperture=35,120
+@3.0s   yaw=0,60   neck_base_pitch=-25,60   neck_top_pitch=0,60   head_pitch=0,60   left_eye=0,80   right_eye=0,80   v_aperture=50,100
+
+[Anim: walle_happy_chirp]
+### Both eye sockets tilt inward (sad/expressive pose), head bobs happily, screen shows image overlay #1 and audio track #2
+@0.0s   yaw=0   neck_base_pitch=-25   head_pitch=0   left_eye=0   right_eye=0   v_eyelid=0
+@0.2s   head_pitch=30,180   left_eye=-30,200   right_eye=30,200   v_aperture=90,255   v_glow_pulse=100   v_audio_play=2,90   v_img_select=1,255   v_img_opacity=100,255
+@0.7s   head_pitch=5,150    left_eye=-10,180   right_eye=10,180
+@1.2s   head_pitch=35,180   left_eye=-35,200   right_eye=35,200   v_glow_color=180,200
+@2.0s   head_pitch=0,80     left_eye=0,100     right_eye=0,100    v_glow_pulse=0   v_img_opacity=0,255   v_glow_color=60
+
+[Anim: walle_scanning]
+### Wide head pan left-to-right, pupils narrow to laser-focused aperture, display image #2 and audio track #3
+@0.0s   yaw=-35,120   neck_base_pitch=-50,80   head_pitch=10,80   v_aperture=25,200   v_gaze_x=80,150   v_glow_color=0,255
+@1.0s   yaw=35,60     v_gaze_x=-80,60   v_img_select=2,255   v_img_opacity=80,255
+@2.5s   yaw=-20,80    v_gaze_x=40,80    v_audio_play=3,75
+@3.5s   yaw=0,80      neck_base_pitch=-25,60   head_pitch=0,60   v_aperture=50,100   v_gaze_x=0,100   v_img_opacity=0,255   v_glow_color=60
+
+[Anim: walle_solar_charge]
+### Reaches neck straight up to sun, eyelids open wide, golden iris glow pulse with graphic overlay #3
+@0.0s   yaw=0   neck_base_pitch=-25   neck_top_pitch=0   head_pitch=0   v_eyelid=0
+@0.5s   neck_base_pitch=-80,60   neck_top_pitch=90,80   head_pitch=85,80   v_eyelid=70,50   v_glow_color=45,100
+@2.0s   v_eyelid=0,255   v_aperture=100,200   v_glow_pulse=100   v_img_select=3,255   v_img_opacity=100,255
+@4.0s   neck_base_pitch=-25,50   neck_top_pitch=0,50    head_pitch=0,50    v_glow_pulse=0      v_img_opacity=0,255   v_glow_color=60
+
+[Anim: walle_shy_glance]
+### Head ducks down, asymmetric pupil glance, fast blink, low volume audio chirp #1
+@0.0s   yaw=0   neck_base_pitch=-25   head_pitch=0   v_asymmetry=0
+@0.3s   neck_base_pitch=-70,100   head_pitch=-10,100   left_eye=15,80   right_eye=-15,80   v_asymmetry=1,255   v_gaze_x=-60,120   v_r_gaze_x=-20,120   v_eyelid=40,100
+@1.0s   v_eyelid=100,255
+@1.15s  v_eyelid=20,255   v_audio_play=1,50
+@2.5s   neck_base_pitch=-25,60   head_pitch=0,60      left_eye=0,60    right_eye=0,60      v_asymmetry=0,255   v_gaze_x=0,100   v_r_gaze_x=0,100   v_eyelid=0,100
+
+[Anim: test]
+@0s v_audio_play=1,50 yaw=20
+@2s yaw=0
+
+
+
+

@@ -1,0 +1,62 @@
+# =========================================================
+# WLE5 Master Script
+# Defines Configuration, Idle States, and Animations
+# =========================================================
+
+[Config]
+IdleTimeout = 5.0
+
+# ---------------------------------------------------------
+# IDLE STATES
+# ---------------------------------------------------------
+
+[State: Alive]
+Interval = 2.0 - 5.0
+# Syntax -> Play: <name>  w:<weight>  v:<variance%>  c:<cooldown_sec>
+Play: look_around      w:40   v:15   c:10
+Play: curious_tilt     w:60   v:10   c:5
+Play: blink            w:80   v:0    c:2
+
+[State: Shifty]
+Interval = 5 - 10
+Play: look_around    w:100  v:25    c:5
+
+[State: Sleepy]
+Interval = 5.0 - 10.0
+Play: heavy_eyelids    w:100  v:5    c:1\5
+
+
+# ---------------------------------------------------------
+# ANIMATIONS
+# ---------------------------------------------------------
+
+[Anim: look_around]
+# Looks right, then left, while adjusting the camera aperture.
+# Includes an organic blink right at the start.
+@0.0s   yaw=20,60       head_pitch=80,40    v_eyelid=100,255
+@0.15s  v_eyelid=0,255
+@2.0s   yaw=-20,50      v_aperture=50
+@4.0s   yaw=0,40        head_pitch=42.5,40  v_aperture=100
+
+[Anim: curious_tilt]
+# Tilts the neck up and pulses the eye glow
+@0.0s   neck_top_pitch=80,50    v_glow_pulse=100
+@1.5s   neck_top_pitch=25,40    v_glow_pulse=0
+
+[Anim: heavy_eyelids]
+# Slowly closes the mechanical eyelids, then opens them
+# The omitted speed falls back to the safe default in your C++ config!
+@0.0s   v_eyelid=80
+@2.0s   v_eyelid=20
+@4.0s   v_eyelid=0
+
+[Anim: blink]
+# A lightning-fast blink (Speed 255 = instant movement)
+@0.0s   v_eyelid=100,20
+@1.05s  v_eyelid=0,20
+
+[anim:test]
+@0s v_eyelid=50 v_aperture=100 v_glow_color=180
+
+
+
