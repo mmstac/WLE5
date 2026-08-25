@@ -1,0 +1,10 @@
+# WLE5 Animation Studio Dependencies
+
+# Hardware Communication (Used in comm_link.py, media_sync.py, radio_sync.py)
+pyserial>=3.53D 
+
+# Simulation Engine (Used in main.py)
+ursina>=6.1.1
+
+# Underlying 3D Framework (Called explicitly in main.py for Audio processing)
+panda3d>=1.10.14
