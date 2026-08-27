@@ -36,12 +36,12 @@ Three producers can set a joint's `target_position` / `target_velocity`, merged 
 
 1. **Live external commands** — from the TCP/USB/UDP link Receiving a live
    command for a joint that's currently being driven by an animation cancels that
-   animation (`active_anim_id = 0`). (see   [02-communication-protocols.md](04-communication-protocols.md)). 
+   animation (`active_anim_id = 0`). (see   [03-scripting-and-joint-configuration.md](03-scripting-and-joint-configuration.md)). 
 2. **Animation playback** — keyframes (`BinKeyframe`/`BinCommand`) from a loaded
    `BinAnimation`, played out against elapsed time in `loop()`.
 3. **Idle-state ("Alive") behavior engine** — after `idle_timeout_sec` of inactivity,
    weighted-random animation selection per the current idle *state* (e.g. `Alive`,
-   `Shifty`, `Sleepy` — see [03-animation-authoring.md](03-animation-authoring.md)), plus
+   `Shifty`, `Sleepy` — see [03-scripting-and-joint-configuration.md](03-scripting-and-joint-configuration.md)), plus
    two always-on procedural generators layered directly into `KinematicsTask`: an
    autonomous blink cycle and an aperture ("focus hunt") twitch.
 
