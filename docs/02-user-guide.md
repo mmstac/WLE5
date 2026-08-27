@@ -83,7 +83,7 @@ Allows for adding media files and automatically syncs files and configurations b
 
 `wle_compiler.py` turns the authored assets into three binary files the firmware
 memory-maps into its runtime tables, and pushes them over the PSRAM asset-transfer
-protocol (`0x02`, see [02-communication-protocols.md](04-communication-protocols.md)):
+protocol (`0x02`, see [04-communication-protocols.md](04-communication-protocols.md)):
 
 | File | Header magic | Contents |
 |---|---|---|
@@ -124,10 +124,10 @@ Independent of Studio, the remote ESP32 wired into the radio's CRSF bus lets a u
 and play animations/audio/images and edit joint calibration directly from the radio
 screen, via `Gjoints.lua` running as an EdgeTX "Tools" script. This is a
 configuration/browsing UI, not a live motion controller — see
-[02-communication-protocols.md](04-communication-protocols.md) §4 for the protocol, and
+[04-communication-protocols.md](04-communication-protocols.md) §4 for the protocol, and
 note that in this snapshot the remote ESP32 answers from seeded test data rather than the
 real robot's asset list (an open wiring gap, discussed in
-[05-rc-manual-control-design.md](05-rc-manual-control-design.md)).
+[06-rc-manual-control-design.md](06-rc-manual-control-design.md)).
 
 ## 4. Manual RC control (in development)
 
