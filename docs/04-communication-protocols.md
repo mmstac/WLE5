@@ -154,7 +154,7 @@ Categories: `0 = Joints, 1 = Animations, 2 = Audio, 3 = Images`.
 > live robot's actual asset list or joint table — the remote ESP32 does not yet have its
 > own link back to the main ESP32 to fetch real data. Wiring that up (and/or reusing the
 > same channel for manual control) is part of the open work tracked in
-> [05-rc-manual-control-design.md](05-rc-manual-control-design.md).
+> [06-rc-manual-control-design.md](06-rc-manual-control-design.md).
 
 ## 5. To be implemented
 
@@ -162,5 +162,5 @@ None of the transports above currently carry **live, continuous manual control i
 the RC transmitter** (stick/switch movements mapped to joints, streamed in real time).
 That is the one subsystem still under development — a fourth transport (ESP-NOW) with its
 own packet format, connecting the remote ESP32 to the main ESP32 directly. See
-[05-rc-manual-control-design.md](05-rc-manual-control-design.md) for what exists today and
+[06-rc-manual-control-design.md](06-rc-manual-control-design.md) for what exists today and
 a proposed design for the rest.
