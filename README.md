@@ -18,7 +18,7 @@ The platform supports
 The following ESP32-S3 board was selected because of its compact footprint, low cost, and wiring simplicity. It includes dual 1.28" round LCD displays, onboard audio (ES8311, amp, and speaker), 8MB PSRAM/16MB Flash, breakout connector for i2c/SPI/UART, and other peripherals (mic, card reader) for under $20.  Other ESP32-S3 boards can also be used.
 
 Waveshare ESP32-S3 1.28inch Double Eye Round LCD AIoT Development Board
-![[Pasted image 20260826143745.png|199]]
+![DevBoard](docs/Pasted%20image%2020260826143745.png)
 
 
 
@@ -26,7 +26,7 @@ Waveshare ESP32-S3 1.28inch Double Eye Round LCD AIoT Development Board
 
 
 ## STUDIO INTERFACE
-![[Pasted image 20260827103029.png]]
+![Studio](docs/Pasted%20image%2020260827103029.png)
 
 
 ## Contents
