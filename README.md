@@ -33,8 +33,9 @@ Waveshare ESP32-S3 1.28inch Double Eye Round LCD AIoT Development Board
 
 | Doc | Covers |
 |---|---|
-| [01-architecture.md](01-architecture.md) | Hardware, firmware task layout, joint/animation engine, PC-side app structure |
-| [02-communication-protocols.md](02-communication-protocols.md) | Every wire protocol in the system today: TCP/USB/UDP live command channel, PSRAM file-transfer protocol, telemetry heartbeat, and the CRSF "TOC" config protocol used by the EdgeTX Lua script |
-| [03-animation-authoring.md](03-animation-authoring.md) | The `.wle`/master-script animation format, compiler, and idle-state behavior engine |
-| [04-usage-guide.md](04-usage-guide.md) | Getting the robot running: flashing, Wi-Fi setup, WLE5 Studio workflow, syncing media/animations, live jogging |
-| [05-rc-manual-control-design.md](05-rc-manual-control-design.md) | **In development.** The second ESP32 ("RC TX") that reads CRSF channels from an EdgeTX radio and will drive the robot live over ESP-NOW. Documents what exists today and proposes the ESP-NOW packet design for the missing piece. |
+| [01-architecture.md](docs/01-architecture.md) | Hardware, firmware task layout, joint/animation engine, PC-side app structure |
+| [02-user-guide.md](docs/02-user-guide.md) | Getting the robot running: flashing, Wi-Fi setup, WLE5 Studio workflow, syncing media/animations, live jogging |
+| [03-scripting-and-joint-configuration.md](docs/03-scripting-and-joint-configuration.md) | The `.wle`/master-script animation format, compiler, and idle-state behavior engine |
+| [04-communication-protocols.md](docs/04-communication-protocols.md) | Every wire protocol in the system today: TCP/USB/UDP live command channel, PSRAM file-transfer protocol, telemetry heartbeat, and the CRSF "TOC" config protocol used by the EdgeTX Lua script |
+| [05-hardware-and-wiring.md](docs/05-hardware-and-wiring.md) | Hardware and wiring |
+| [06-rc-manual-control-design.md](docs/06-rc-manual-control-design.md) | **In development.** The second ESP32 ("RC TX") that reads CRSF channels from an EdgeTX radio and will drive the robot live over ESP-NOW. Documents what exists today and proposes the ESP-NOW packet design for the missing piece. |
