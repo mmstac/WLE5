@@ -21,7 +21,7 @@ Run wle5_studio.exe from the /tools folder. It expects the directory structure o
 # Control Panel
 The main control panel for connecting to the ESP32, monitoring/updating current joint positions, and launching maintenance screens.
 
-![[Pasted image 20260826191403.png|434]]
+<img src="Pasted%20image%2020260826191403.png" width="434">
 # Connect to ESP32-S3
 - Type the COM port (ie. 'COM9') into the LINK field to connect via USB or the IP address of the ESP32 to connect via wifi.  Click **Connect**, a  successful connect triggers `safe_force_sync()` automatically so the robot's config is refreshed and synced
 
@@ -34,7 +34,7 @@ Selecting a line in the script editor will copy all the commands in that line. Y
 SPD : The desired travel speed (default speed will be used if not specified)
 
 The simulator will animate and move with the changes in POS values. Note that not all joints are shown in the simulator (those highlighted in grey are not simulated).
-![[Pasted image 20260826200947.png|431]]
+<img src="Pasted%20image%2020260826200947.png" width="431">
 
 To update the ESP32 simultaneously, the command stream  must be enabled by toggling :
 - **`>>SIM<<` / `<LIVE>` toggle**: this is the telemetry/live-arm switch
@@ -52,7 +52,7 @@ For more details refer to 03-scripting-and-joint-configuration
 
 # **Script Editor** (Toolbox → 📝)
 Select the SCRIPT EDITOR from the TOOLBOX dropdown on the main control panel.
-![[Pasted image 20260826202044.png|457]]
+<img src="Pasted%20image%2020260826202044.png" width="457">
 
 # Testing scripts
 Load a script file (.wle or .txt) from /anims, select the animation script name you wish to test in the Target Anim dropdown and click the TEST IN SIM button.
@@ -64,13 +64,13 @@ Add or modify joint settings including ranges, servo limits, hardware channel ma
  For more details refer to 03-scripting-and-joint-configuration
  Edit `robot_master.json`  (`config_editor.py`). 
 
-![[Pasted image 20260826200813.png|505]]
+<img src="Pasted%20image%2020260826200813.png" width="505">
 
 
 # Sync Manager (Toolbox → 🔄)
   runs `run_smart_sync()` — queries the robot's current
 Allows for adding media files and automatically syncs files and configurations between the desktop and the ESP32
-![[Pasted image 20260826200907.png|391]]
+<img src="Pasted%20image%2020260826200907.png" width="391">
 # Adding image and audio files
 - **Media**: `optimize_media.py` transcodes source audio/images into the compact formats
   the robot expects (requires `ffmpeg` on the PC) before `media_sync.py` pushes them.

@@ -4,7 +4,7 @@
 The character is driven by a single **ESP32-S3** running a sketch split across
 `Walle-double.ino` (setup/loop, hardware I/O, kinematics), `z_sys_mgr.ino` (stream/command
 parsing, file transfer, system commands), and `z_eye_render.ino` (procedural eye graphics).
-![[wle5_main_esp32_dataflow.svg|606]]
+<img src="wle5_main_esp32_dataflow.svg" width="606">
 ### FreeRTOS task layout
 
 | Task                         | Core | Priority    | Rate                             | Responsibility                                                                                                             |
