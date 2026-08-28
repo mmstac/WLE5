@@ -1,136 +1,135 @@
-# User Guide
+# WLE5 — User Guide & Studio Manual
+
+**Target Audience:** Makers, Animatronic Designers, Operators, and Developers  
+**Companion App:** WLE5 Animation Studio (`WLE5_Studio.exe` / `python/main.py`)
+
+---
 
 ## 1. ESP32 Main Controller Installation
 
-1. Flash the ESP32-S3 firmware
-	Using the Arduino IDE, connect to the ESP32-S3. Flash the walle-double.ino, z_eye_render.ino, z_sys_mgr.ino, and robot_config.h (contains virtual joint settings) with the libraries it includes: `TFT_eSPI`, `ESP32Servo`, `Adafruit_PWMServoDriver`,`Audio`, plus the bundled `src/` audio codec driver.
-	
-2. To connect via wifi (recommended for larger file transfers) you will need to do the following:
-		a. Open WLE5 Studio on your desktop and connect to the ESP32 via USB
-		b. Enter the COM port number (ie 'COM9')in the LINK box and click CONNECT
-		c. Clilck on the TOOLBOX menu and select Wi-Fi Setup and enter your wifi credentials
-		d. Reboot the ESP32 and note the IP address displayed on the screen
-		e. Type the IP address ain the LINK field and click CONNECT. This will establish a TCP connection on port 4210.
+### 1.1 Flashing Firmware
+1. Open `firmware/esp32_main/Walle-double.ino` in Arduino IDE.
+2. Under **Tools**, configure the following board settings:
+   - **Board**: `ESP32S3 Dev Module`
+   - **PSRAM**: `OPI PSRAM` (or `QSPI PSRAM` depending on board revision)
+   - **Flash Size**: `16MB (128Mb)`
+   - **Partition Scheme**: `16M Flash (3MB APP/9.9MB FATFS)`
+   - **Upload Speed**: `921600`
+3. Required Libraries:
+   - `TFT_eSPI` (configured for GC9A01 dual displays)
+   - `Adafruit_PWMServoDriver`
+   - `ESP32Servo`
+   - `Audio` (ESP32-audioI2S) + bundled `src/` audio codec driver for ES8311
+4. Connect via USB-C and flash `Walle-double.ino`, `z_eye_render.ino`, `z_sys_mgr.ino`, and `robot_config.h`.
 
-	**Recovery / safe mode:** if needed, hold GPIO0 low at boot (the standard ESP32 "BOOT" button) sets `safe_mode_active`, which freezes the kinematics/graphics tasks and disables asset loading.
+### 1.2 First-Time Wi-Fi Setup
+Wi-Fi (TCP port `4210`) is the primary link for wireless asset syncing and live joint jogging:
+1. Open **WLE5 Studio** on your desktop.
+2. Connect to the ESP32 via USB: enter your COM port (e.g., `COM9`) in the **LINK** field and click **CONNECT**.
+3. In the menu, select **Toolbox → Wi-Fi Setup** and enter your 2.4 GHz network credentials (SSID and password).
+4. Reboot the ESP32. On startup, the IP address will be displayed on the round LCD eye.
+5. Type the IP address into the **LINK** field in WLE5 Studio and click **CONNECT** to establish the TCP connection on port `4210`.
 
+> 💡 **Recovery / Safe Mode:** If needed, hold **GPIO0 low at boot** (the standard ESP32 "BOOT" button). This activates `safe_mode_active`, which freezes kinematics and graphics tasks and disables asset loading, allowing recovery of corrupted configs or files.
 
-## 2. WLE5 Studio
-Run wle5_studio.exe from the /tools folder. It expects the directory structure of /config, /anims, and /media to also be present (this can be copied from the /release folder).
+---
 
-# Control Panel
-The main control panel for connecting to the ESP32, monitoring/updating current joint positions, and launching maintenance screens.
+## 2. WLE5 Studio Workspace & Control Panel
+
+Launch `WLE5_Studio.exe` from the `/tools` folder (or run `python python/main.py`). The application expects the directory structure of `/config`, `/anims`, and `/media` to be present.
 
 <img src="Pasted%20image%2020260826191403.png" width="434">
-# Connect to ESP32-S3
-- Type the COM port (ie. 'COM9') into the LINK field to connect via USB or the IP address of the ESP32 to connect via wifi.  Click **Connect**, a  successful connect triggers `safe_force_sync()` automatically so the robot's config is refreshed and synced
 
-# Manipulate Joints
-Joints are listed by region, you can collapse or expand them by clicking on it.
-The POS column shows the current position of the joint. Some joints will have keyboard shortcuts for jogging their values (keys).
-The SET column is the desired set point and this can be linked to the script editor. 
-Selecting a line in the script editor will copy all the commands in that line. You can use the '<PUSH' button to send the SET values to the current POS. The 'SIM>' button copies the POS to the SET column, but only for joints where there is already a value (you can type in 0 to force the copy). In the script editor, the SET values can automatically create a command line using the ADD LINE TO SCRIPT button.
+### 2.1 Connection & Synchronization
+- **LINK Field**: Enter either a serial COM port (e.g. `COM9`) or an IP address (e.g. `192.168.1.145`) and click **Connect**.
+- **Safe Force Sync**: A successful connection triggers `safe_force_sync()` automatically so the robot's configuration is refreshed and synchronized.
 
-SPD : The desired travel speed (default speed will be used if not specified)
+### 2.2 Joint Manipulation & Controls
+Joints are grouped by logical anatomical regions (*Head*, *Neck*, *Arms*, *Virtual*). Click any region header to collapse or expand it.
 
-The simulator will animate and move with the changes in POS values. Note that not all joints are shown in the simulator (those highlighted in grey are not simulated).
 <img src="Pasted%20image%2020260826200947.png" width="431">
 
-To update the ESP32 simultaneously, the command stream  must be enabled by toggling :
-- **`>>SIM<<` / `<LIVE>` toggle**: this is the telemetry/live-arm switch
-  (`CommManager.toggle_telemetry`). In `>>SIM<<` you can jog joints and preview
-  animations against the **digital twin** (`digital_twin.py`) with zero physical
-  movement or wire traffic. Flipping to `<LIVE>` arms outgoing `0xAA` frames to the
-  actual robot and starts the telemetry heartbeat watchdog.
+| Column / Control | Function |
+|---|---|
+| **POS** | Displays the current live position of the joint. |
+| **KEYS** | Keyboard shortcuts for jogging values interactively (e.g. `A`/`D` for yaw, `W`/`S` for neck base pitch, `1`/`2` for eyelids). |
+| **SET** | The desired setpoint linked to the Script Editor. Selecting a line in the Script Editor copies all commands in that line to `SET`. |
+| **`<PUSH` Button** | Sends the current `SET` values to `POS`. |
+| **`SIM>` Button** | Copies `POS` values back to `SET` for joints where a value is already present (or type `0` to force copy). |
+| **SPD** | Commanded slew speed (default speed used if omitted). |
+| **`>>SIM<<` / `<LIVE>` Toggle** | Master telemetry & live-arm switch. In `>>SIM<<`, you jog joints and preview animations in simulation with no hardware commands sent. In `<LIVE>`, outgoing `0xAA` motion packets stream directly to the physical servos and displays. |
 
-# Writing scripts
-Animations and autonomous "personality" behavior are authored as plain text
-(`anims/mster_script.txt`), edited live in WLE5 Studio, simulated, tested, and compiled to binary blobs the robot loads from flash. This doc covers the text format, the compiled format, and how the runtime picks what to play when nobody's driving it.
+*(Note: Joints highlighted in grey in the studio list are not visually simulated in the Pygame viewport).*
 
-The script syntax is meant to be simple and easy to read. Just knowing the joint names will allow an animation sequence to be easily created. Each script command should start with the keyframe time (ie. @1.0s) followed by a list of joint target specifications (yaw=40  head_pitch-15,10). The target value is the defined "real world" range for each joint, so this maybe the rotational position or whatever value makes the most sense to the animator. The speed is optional, but is useful for slowing down motions. 
-For more details refer to 03-scripting-and-joint-configuration
+---
 
-# **Script Editor** (Toolbox → 📝)
-Select the SCRIPT EDITOR from the TOOLBOX dropdown on the main control panel.
+## 3. Script Editor & Animation Workflow (Toolbox → 📝)
+
+Select **Script Editor** from the **Toolbox** dropdown on the main control panel.
+
 <img src="Pasted%20image%2020260826202044.png" width="457">
 
-# Testing scripts
-Load a script file (.wle or .txt) from /anims, select the animation script name you wish to test in the Target Anim dropdown and click the TEST IN SIM button.
-If the LIVE toggle is also enabled, the script commands will be streamed to the robot.
+### 3.1 Writing Animation Scripts
+Animations and autonomous "personality" behaviors are authored in plain text (`.wle` / `.txt`) in `/anims`:
+- Each script command starts with an absolute timestamp (e.g., `@1.0s`) followed by target joint values (`yaw=40 head_pitch=-15,10`).
+- Target values are in real-world physical units (degrees, percentages, or enum values).
+- The speed parameter (`[target],[speed]`) is optional and slows down movement.
+- In the Script Editor, pressing **ADD LINE TO SCRIPT** automatically generates a command line from the current `SET` columns.
 
-# Configure Joints (Toolbox → ⚙️)
-Add or modify joint settings including ranges, servo limits, hardware channel mapping, control type, speed/accel limits
- Saving  regenerates `robot_config.h` (virtual joint IDs) and `config.bin` which should be synced with the ESP32 (see below).
- For more details refer to 03-scripting-and-joint-configuration
- Edit `robot_master.json`  (`config_editor.py`). 
+### 3.2 Testing Scripts
+1. Select a loaded script from `/anims`.
+2. Choose the animation name in the **Target Anim** dropdown.
+3. Click **TEST IN SIM** to preview physical motion in the digital twin simulator.
+4. If the `<LIVE>` toggle is active, the script commands stream simultaneously to the physical robot.
+
+---
+
+## 4. Joint Configuration Editor (Toolbox → ⚙️)
+
+Open **Toolbox → Configure Joints** to edit `robot_master.json` (`config_editor.py`).
 
 <img src="Pasted%20image%2020260826200813.png" width="505">
 
+- Modify software ranges (`r_min`, `r_max`, `r_init`), hardware servo pulse limits (`cmd_min`, `cmd_max`), hardware channel mappings, control types, default speeds, and acceleration limits.
+- Saving automatically regenerates:
+  1. `robot_config.h` (C++ virtual joint constant declarations)
+  2. `config.bin` (compact binary payload ready for flashing/syncing)
 
-# Sync Manager (Toolbox → 🔄)
-  runs `run_smart_sync()` — queries the robot's current
-Allows for adding media files and automatically syncs files and configurations between the desktop and the ESP32
+For a detailed dictionary of all parameters, see [**Scripting & Joint Configuration**](04-scripting-and-joint-configuration.md).
+
+---
+
+## 5. Sync & Media Manager (Toolbox → 🔄)
+
+The **Sync Manager** handles media transcoding and 1-click delta synchronization between your PC and the ESP32.
+
 <img src="Pasted%20image%2020260826200907.png" width="391">
-# Adding image and audio files
-- **Media**: `optimize_media.py` transcodes source audio/images into the compact formats
-  the robot expects (requires `ffmpeg` on the PC) before `media_sync.py` pushes them.
 
-* Audio files will be automatically indexed and converted to 16khz mp3 files for saving space*
-	(due to a bug in the mp3 decoding library, audio files longer than 12s will be converted to 24khz for smooth playback)
-* Image files will be automatically indexed and converted to RGB565 234x234 binary image file*
+### 5.1 Operating Steps for Syncing
+1. **Open Sync Manager**: Click **Toolbox → 🔄 Sync Manager** from the Studio menu.
+2. **Optimize Media (Optional)**: If you added new audio or image files to your `/media` folder, click **Optimize Media**. Studio will automatically convert audio files into optimized MP3 format and eye graphics into display-ready RGB565 bitmaps.
+3. **1-Click Smart Sync**: Click **Sync All** or **Delta Sync**. Studio automatically:
+   - Compiles your latest joint configurations, animation scripts, and idle personality states.
+   - Compares content hashes with the robot.
+   - Uploads only modified files to the robot's internal flash memory over Wi-Fi or USB.
 
-# Compiling and syncing script/config files
+### 5.2 Files Managed During Sync
+- **Joint Configuration** (`config.bin`): Hardware calibration, servo pulse limits, and channel mapping.
+- **Animation Scripts** (`anims.bin`): All compiled keyframe sequences from `/anims`.
+- **Idle State Machine** (`states.bin`): Autonomous "Alive" behaviors, timing, and randomness weights.
+- **Media Files** (`/img`, `/audio`): Custom eye graphic sprites and MP3 sound clips stored on internal flash.
 
-`wle_compiler.py` turns the authored assets into three binary files the firmware
-memory-maps into its runtime tables, and pushes them over the PSRAM asset-transfer
-protocol (`0x02`, see [04-communication-protocols.md](04-communication-protocols.md)):
+*(For detailed binary file specifications, FreeRTOS memory staging, and PSRAM transfer mechanics, see [**System Architecture**](03-architecture.md) and [**Communication Protocols**](05-communication-protocols.md)).*
 
-| File | Header magic | Contents |
+---
+
+## 6. Troubleshooting & Diagnostics
+
+| Symptom | Probable Cause | Action |
 |---|---|---|
-| `config.bin` | `"WLEC"` | version(u32) + joint count(u8) + `BinJointConfig[]` — the joint/hardware map |
-| `anims.bin` | `"WLEA"` | content-hash(u32) + animation count(u8) +, per animation: name(32B), keyframe count, then packed `BinKeyframe`/`BinCommand` records |
-| `states.bin` | `"WLES"` | `idle_timeout_sec`(u32) + state count(u8), then per state: id, interval min/max, and its weighted list of `(anim_name, weight, variance, cooldown)` entries |
-
-`run_smart_sync()` is the "smart" part: before uploading, it queries the robot's current
-`config.bin`/`anims.bin` version via the `0xBB`/`0xCC` sub-headers and only re-uploads
-files that are actually stale, rather than always pushing everything.
-
-On the firmware side, each file's loader (`loadHardwareConfig`, `loadAnimations`,
-`loadIdleStates` in `z_sys_mgr.ino`) validates the 4-byte magic, then rebuilds the
-corresponding in-RAM table (`ROBOT_CONFIG[]`, `activeAnimations[]`, `idle_actions[]`),
-freeing any previously-allocated PSRAM buffers first.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-The Sync & Media Manager
-
-
-
-
-## 3. The EdgeTX Lua "TOC" menu (existing radio-side feature)
-
-Independent of Studio, the remote ESP32 wired into the radio's CRSF bus lets a user browse
-and play animations/audio/images and edit joint calibration directly from the radio
-screen, via `Gjoints.lua` running as an EdgeTX "Tools" script. This is a
-configuration/browsing UI, not a live motion controller — see
-[04-communication-protocols.md](04-communication-protocols.md) §4 for the protocol, and
-note that in this snapshot the remote ESP32 answers from seeded test data rather than the
-real robot's asset list (an open wiring gap, discussed in
-[06-rc-manual-control-design.md](06-rc-manual-control-design.md)).
-
-## 4. Manual RC control (in development)
-
-Live, stick-driven manual control from the radio isn't wired up yet. See
-[05-rc-manual-control-design.md](05-rc-manual-control-design.md) for the current state and
-the proposed design.
+| **Cannot connect over USB** | Incorrect COM port or missing USB-UART driver | Check Device Manager for CP210x/CH340 driver; ensure baud rate is set to 115,200. |
+| **Wi-Fi connection fails** | 5 GHz network selected or weak signal | ESP32-S3 only connects to **2.4 GHz** Wi-Fi networks. Verify SSID/password via Toolbox. |
+| **Servos buzz or stall** | Power rail current limit or missing common ground | Servos require 5V/6V (3A–5A). Ensure ESP32 GND and Servo PSU GND are tied together. |
+| **Displays remain blank** | SPI pin configuration or safe mode | Verify `TFTespi_config.h`. If Safe Mode is enabled, displays will stay in idle state. |
+| **Audio playback cuts off** | Bitrate/sample rate mismatch | Re-run Media Optimization in Studio to ensure 16 kHz / 24 kHz MP3 conversion. |
+| **Boot loop / continuous reset** | Corrupt configuration in flash | Hold **BOOT** button (GPIO0) during power-up to enter **Safe Mode**, then re-run Smart Sync. |
